@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="page"></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  
+  <style>
+    :root {
+      --primary-blue: #007AFF;
+      --secondary-blue: #D6E8FF;
+      --dark-text: #222222;
+      --light-text: #666666;
+      --background-color: #F8F8F8;
+      --card-background: #FFFFFF;
+      --border-color: #EFEFEF;
+      --shadow-color: rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s ease-in-out;
+
+      /* Dark Mode Colors */
+      --dark-background: #111827;
+      --dark-card-background: #1F2937;
+      --dark-text-color: #E5E7EB;
+      --dark-light-text: #9CA3AF;
+      --dark-border-color: #374151;
+      --dark-shadow-color: rgba(0, 0, 0, 0.2);
+      --dark-blue-accent: #3B82F6;
+      --dark-secondary-blue-accent: #60A5FA;
+    }
+
+    /* Dark Mode Global Styles */    
+    body.dark-mode {
+      background-color: var(--dark-card-background);
+      color: var(--dark-text-color);
+    }
+    
+    body.dark-mode #loading-screen, 
+    body.dark-mode .loading-text {
+    background-color: var(--dark-card-background);
+      color: var(--dark-text-color);
+    }
+
+    body.dark-mode .navbar,
+    body.dark-mode .sidebar,
+    body.dark-mode .modal-dialog,
+    body.dark-mode .api-card {
+      background: var(--dark-card-background);
+      border-color: var(--dark-border-color);
+      box-shadow: 0 2px 4px var(--dark-shadow-color);
+    }
+
+    body.dark-mode .navbar {
+      border-bottom-color: var(--dark-border-color);
+      box-shadow: none;
+    }
+
+    body.dark-mode .sidebar {
+      box-shadow: -5px 0 15px var(--dark-shadow-color);
+    }
+
+    body.dark-mode .brand,
+    body.dark-mode .sidebar ul li a,
+    body.dark-mode .hero h2,
+    body.dark-mode .modal-title h5,
+    body.dark-mode .api-info h3 {
+      color: var(--dark-text-color);
+    }
+
+    body.dark-mode .hero p,
+    body.dark-mode .hero-links span,
+    body.dark-mode .modal-title span,
+    body.dark-mode .btn-close,
+    body.dark-mode .tab,
+    body.dark-mode .api-info p {
+      color: var(--dark-light-text);
+    }
+
+    body.dark-mode .sidebar ul li a i {
+      color: var(--dark-light-text);
+    }
+
+    body.dark-mode .sidebar ul li:hover {
+      background-color: var(--dark-border-color);
+    }
+
+    body.dark-mode .sidebar ul li a:hover {
+      color: var(--dark-blue-accent);
+    }
+
+    body.dark-mode .sidebar ul li a:hover i {
+      color: var(--dark-blue-accent);
+    }
+
+    body.dark-mode .modal-body .copy-section,
+    body.dark-mode .modal-body form input,
+    body.dark-mode #apiResponseContent {
+      background: var(--dark-border-color);
+      border-color: var(--dark-border-color);
+      color: var(--dark-text-color);
+    }
+    
+    body.dark-mode #apiResponseContent pre {
+    color: var(--dark-text-color);
+    }
+
+    body.dark-mode .modal-body form input::placeholder {
+      color: var(--dark-light-text);
+    }
+
+    body.dark-mode #copyEndpointText {
+      color: var(--dark-text-color);
+    }
+
+    body.dark-mode .sidebar-toggle .bar {
+      background-color: var(--dark-text-color);
+    }
+
+    body.dark-mode #theme-toggle a {
+      color: var(--dark-text-color);
+    }
+    body.dark-mode #theme-toggle:hover a {
+      color: var(--primary-blue);
+    }
+
+    body.dark-mode .modal-title h5 span,
+    body.dark-mode .api-info h3 span.method-tag {
+      background-color: var(--dark-border-color);
+      color: var(--dark-secondary-blue-accent);
+    }
+
+    body.dark-mode .play-button,
+    body.dark-mode #copyUrlBtn,
+    body.dark-mode #submitParamBtn,
+    body.dark-mode .start-button {
+      background: var(--dark-blue-accent);
+    }
+
+    body.dark-mode .play-button:hover,
+    body.dark-mode #copyUrlBtn:hover,
+    body.dark-mode #submitParamBtn:hover,
+    body.dark-mode .start-button:hover {
+      background: var(--dark-light-text);
+    }
+
+    body.dark-mode .tab.active::after {
+      background-color: var(--dark-blue-accent);
+    }
+
+    body.dark-mode .tab.active {
+      color: var(--dark-blue-accent);
+    }
+
+
+    /* Existing styles, unmodified */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    ::-webkit-scrollbar {
+        width: 0 !important;
+        height: 0 !important;
+        display: none;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--card-background);
+      color: var(--dark-text);
+      line-height: 1.6;
+      padding: 0;
+      min-height: 100vh;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+      position: relative;
+      transition: background-color 0.3s ease-in-out;
+    }
+    
+    body.sidebar-open {
+      overflow: hidden;
+    }
+
+    .d-none {
+      display: none !important;
+    }
+
+    /* Loading Screen */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--card-background);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    .loading-spinner-large {
+      border: 5px solid rgba(0, 122, 255, 0.2);
+      border-top: 5px solid var(--primary-blue);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+        color: var(--dark-text);
+        margin-top: 1rem;
+        font-weight: 500;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: var(--card-background);
+      border-bottom: 1px solid var(--border-color);
+      padding: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: none;
+    }
+    
+    .navbar-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0.8rem;
+        padding: 0.4rem;
+    }
+
+    .brand {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      text-decoration: none;
+    }
+
+    .nav-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        transition: transform 0.2s ease-in-out;
+    }
+    
+    .nav-icon i {
+        font-size: 1.5rem;
+        color: #25d366;
+    }
+
+    /* Sidebar Menu */
+    .sidebar-toggle {
+      width: 25px;
+      height: 18px;
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      z-index: 11;
+      padding: 0;
+    }
+
+    .sidebar-toggle .bar {
+      width: 100%;
+      height: 2px;
+      background-color: var(--dark-text);
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    body.sidebar-open .sidebar-toggle .bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    body.sidebar-open .sidebar-toggle .bar:nth-child(2) {
+      opacity: 0;
+    }
+
+    body.sidebar-open .sidebar-toggle .bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 2rem;
+      right: 0;
+      width: 50%;
+      max-width: 300px;
+      height: 100%;
+      background: var(--card-background);
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+      z-index: 9;
+      padding: 2rem 1.5rem;
+    }
+
+    body.sidebar-open .sidebar {
+      transform: translateX(0);
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 8;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    body.sidebar-open .sidebar-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 6rem;
+    }
+
+    .sidebar ul li {
+      margin-bottom: 1.5rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    .sidebar ul li:hover {
+      background-color: var(--background-color);
+    }
+
+    .sidebar ul li a {
+      color: var(--dark-text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .sidebar ul li a i {
+      font-size: 1.2rem;
+      width: 20px;
+      text-align: center;
+      color: var(--light-text);
+    }
+
+    .sidebar ul li a:hover {
+      color: var(--primary-blue);
+    }
+
+    .sidebar ul li a:hover i {
+      color: var(--primary-blue);
+    }
+
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem 1rem 2rem 1rem;
+      padding: 0 1.5rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: left;
+      margin-bottom: 1.8rem;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      color: var(--light-text);
+      margin-bottom: 1rem;
+    }
+
+    .hero-links span {
+      font-weight: 500;
+      color: var(--dark-text);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-links a {
+      color: var(--primary-blue);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .hero-links a:hover {
+      color: var(--dark-text);
+    }
+
+    /* Tab & API List */
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      
+    }
+
+    .tab {
+      background: none;
+      border: none;
+      color: var(--light-text);
+      font-weight: 500;
+      padding: 0.5rem 0;
+      cursor: pointer;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      position: relative;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .tab.active {
+      color: var(--primary-blue);
+    }
+
+    .tab::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: var(--primary-blue);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .tab.active::after {
+      transform: scaleX(1);
+    }
+
+    .api-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 4rem;
+    }
+
+    .api-card {
+      background: var(--card-background);
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px var(--shadow-color);
+      transition: var(--transition);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 80px;
+      transform: translateY(10px);
+      opacity: 0;
+      animation: card-in 0.6s ease-out forwards;
+    }
+
+    .api-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px var(--shadow-color);
+    }
+
+    @keyframes card-in {
+      from { transform: translateY(10px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .api-card .api-info {
+        flex: 1;
+        margin-right: 1rem;
+    }
+
+    .api-info h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .api-info h3 span.method-tag {
+      background-color: var(--secondary-blue);
+      color: var(--primary-blue);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      
+      text-transform: uppercase;
+    }
+
+    .api-info p {
+      font-size: 0.85rem;
+      color: var(--light-text);
+      line-height: 1.4;
+    }
+
+    .play-button {
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      width: fit-content;
+      flex-shrink: 0;
+    }
+
+    .play-button:hover {
+      background: var(--dark-text);
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 1rem;
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-dialog {
+      background: var(--card-background);
+      border-radius: 12px;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      transform: scale(0.9);
+      transition: var(--transition);
+    }
+
+    .modal.active .modal-dialog {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .modal-title h5 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .modal-title h5 .method-tag {
+      background-color: var(--secondary-blue);
+      color: var(--primary-blue);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .modal-title span {
+      font-size: 0.85rem;
+      color: var(--light-text);
+    }
+
+    .btn-close {
+      background: none;
+      border: none;
+      font-size: 2.2rem;
+      font-weight: 300;
+      cursor: pointer;
+      color: var(--light-text);
+      transition: var(--transition);
+    }
+
+    .btn-close:hover {
+      color: var(--dark-text);
+    }
+
+    .modal-body .copy-section {
+      display: flex;
+      align-items: center;
+      background: var(--background-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 1rem;
+      gap: 0.75rem;
+    }
+
+    #copyEndpointText {
+      flex-grow: 1;
+      font-family: monospace;
+      font-size: 0.8rem;
+      overflow-x: auto;
+      white-space: nowrap;
+      color: var(--dark-text);
+    }
+
+    #copyUrlBtn {
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 500;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    #copyUrlBtn:hover {
+      background: var(--dark-text);
+    }
+
+    .modal-body form input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-color);
+      background: var(--background-color);
+      color: var(--dark-text);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      transition: var(--transition);
+      font-size: 0.85rem;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .modal-body form input:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px var(--secondary-blue);
+    }
+
+    #submitParamBtn {
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    #submitParamBtn:hover {
+      background: var(--dark-text);
+    }
+
+    .loading-spinner {
+      margin: 1.5rem auto;
+      border: 5px solid rgba(0, 122, 255, 0.2);
+      border-top: 5px solid var(--primary-blue);
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      animation: spin 0.8s linear infinite;
+    }
+
+    #apiResponseContent {
+      background: var(--background-color);
+      border: 1px solid var(--border-color);
+      padding: 1rem;
+      border-radius: 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 1rem;
+    }
+
+    #apiResponseContent pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: monospace;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: var(--dark-text);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1rem;
+      }
+      .navbar {
+        padding: 0.4rem;
+      }
+      .hero h2 {
+        font-size: 1.5rem;
+      }
+      .hero p {
+        font-size: 0.90rem;
+      }
+      .api-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-screen">
+    <div class="loading-spinner-large"></div>
+    <div class="loading-text">Loading...</div>
+  </div>
+  
+  <header class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-left">
+        <span id ="navname" class="brand">API Docs</span>
+      </div>
+      <div class="navbar-right">
+        <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle sidebar menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <div id="sidebar" class="sidebar">
+    <ul>
+      <li>
+        <a id="Telegram" href="https://t.me/kyu_pedo" target="_blank">
+          <i class="fab fa-github"></i>
+          Github
+        </a>
+      </li>
+      <li>
+        <a id="Information" href="https://t.me/murbug_kyu" target="_blank">
+          <i class="fas fa-envelope"></i>
+          Contact Developer
+        </a>
+      </li>
+      <li>
+        <a id="Testimoni" href="https://t.me/testi_kyu" target="_blank">
+          <i class="fas fa-code"></i>
+          Source Code
+        </a>
+      </li>
+      <li id="theme-toggle-li">
+        <a href="#" id="theme-toggle">
+          <i class="fas fa-moon"></i>
+          Dark Mode
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <div class="container">
+    <section class="hero">
+      <div class="title-container">
+        <h2 id="apiTitle"></h2>
+      </div>
+      <p>A simple and fast API for integrating WhatsApp bot features.</p>
+    </section>
+
+    <section class="content">
+      <div class="tabs" id="tabs"></div>
+      <div id="api-list" class="api-list"></div>
+    </section>
+  </div>
+
+  <div class="modal" id="apiResponseModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h5></h5>
+          <span id="desc"></span>
+        </div>
+        <button id="btn-close" class="btn-close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="copy-section d-none">
+          <span id="copyEndpointText"></span>
+          <button id="copyUrlBtn">Copy URL</button>
+        </div>
+        <form id="paramForm"></form>
+        <button id="submitParamBtn" type="button" class="d-none">Submit Request</button>
+        <div id="apiResponseLoading" class="loading-spinner">
+        </div>
+        <div id="apiResponseContent" class="d-none"></div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+    
+    try {
+        // --- Dark Mode Logic ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleLi = document.getElementById('theme-toggle-li');
+    
+        const applyTheme = (isDark) => {
+            document.body.classList.toggle('dark-mode', isDark);
+            const icon = themeToggle.querySelector('i');
+            if (isDark) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                themeToggleLi.querySelector('a').innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                themeToggleLi.querySelector('a').innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+            }
+        };
+    
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme !== null) {
+            applyTheme(storedTheme === 'dark');
+        } else {
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(prefersDark);
+        }
+        
+        themeToggleLi.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isDark = !document.body.classList.contains('dark-mode');
+            applyTheme(isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+        // --- End of Dark Mode Logic ---
+
+        document.querySelector('.container').style.display = 'none';
+    
+        const tabsContainer = document.getElementById("tabs");
+        const apiList = document.getElementById("api-list");
+        const paramForm = document.getElementById("paramForm");
+        const submitBtn = document.getElementById("submitParamBtn");
+        const modal = document.getElementById("apiResponseModal");
+        const responseEl = document.getElementById("apiResponseContent");
+        const loadingEl = document.getElementById("apiResponseLoading");
+        const urlsSection = document.querySelector(".copy-section");
+    
+        let currentEndpoint = "";
+        let settings = {}, apis = {};
+        let OpeningApi = "Orderkuota"
+    
+        try {
+            const [settingsRes, apisRes] = await Promise.all([
+                fetch("/set"),
+                fetch("/endpoints")
+            ]);
+            settings = await settingsRes.json();
+            apis = await apisRes.json();
+        } catch (err) {
+            console.error("Gagal memuat konfigurasi API:", err);
+            document.getElementById('loading-screen').innerHTML = '<div style="color:red; font-size:1.2rem; font-weight:500; text-align:center;">Error: Gagal memuat data API. Pastikan server Anda berjalan dengan baik.</div>';
+            return;
+        }
+    
+        const setContent = (id, prop, val) => {
+            const el = document.getElementById(id);
+            if (el) el[prop] = val;
+        };
+    
+        setContent("page", "textContent", "Docs - " + (settings.apiTitle || "API"));
+        setContent("apiTitle", "textContent", "Docs - " + settings.apiTitle || "API Documentation");
+        setContent("navname", "textContent", settings.apiTitle);
+        
+        const chlink = document.getElementById('sourcecode');
+        if (chlink) {
+            chlink.href = settings.channelLink || '#';
+        }
+        
+        const githublink = document.getElementById('github');
+        if (githublink) {
+            githublink.href = settings.githubLink || '#';
+        }
+        
+        const contactlink = document.getElementById('contact');
+        if (contactlink) {
+            contactlink.href = settings.contactLink || '#';
+        }
+    
+        const categories = Object.keys(apis);    
+        if (categories.includes(OpeningApi)) {
+        let indx = categories.indexOf(OpeningApi)
+        categories.splice(indx, 1)
+        categories.unshift(OpeningApi)
+        } else {
+        OpeningApi = null
+        }
+        if (categories.length === 0) return;
+    
+        categories.forEach((key) => {
+            const btn = document.createElement("button");
+            btn.className = `tab`;
+            btn.dataset.tab = key;
+            btn.textContent = key;
+            tabsContainer.appendChild(btn);
+        });
+    
+        function renderAPIs(category) {
+            apiList.innerHTML = "";
+            if (!apis[category]) return;
+    
+            apis[category].sort((a, b) => a.name.localeCompare(b.name)).forEach((api, i) => {
+                const card = document.createElement("div");
+                card.className = "api-card";
+                card.style.animationDelay = `${i * 0.05}s`;
+                card.innerHTML = `
+                <div class="api-info">
+                  <h3><span class="method-tag">GET</span> ${api.name}</h3>
+                  ${api.desc ? `<p>${api.desc}</p>` : ""}
+                </div>
+                <button class="play-button" data-endpoint="${api.path}" data-api="${api.name}" data-desc="${api.desc}">
+                  Try it
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M10.854 3.646a.5.5 0 0 1 0 .708L7.207 8l3.647 3.646a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708 0z"/>
+                  </svg>
+                </button>
+              `;
+                apiList.appendChild(card);
+            });
+        }
+    
+        const defaultCategory = OpeningApi
+        const initialCategory = apis[defaultCategory] ? defaultCategory : categories[0];
+        renderAPIs(initialCategory);
+    
+        const activeTab = [...tabsContainer.querySelectorAll(".tab")].find(tab => tab.dataset.tab === initialCategory);
+        if (activeTab) {
+            document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+            activeTab.classList.add("active");
+        }
+    
+        tabsContainer.addEventListener("click", (e) => {
+            const tabBtn = e.target.closest(".tab");
+            if (!tabBtn || !tabBtn.dataset.tab) return;
+    
+            document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+            tabBtn.classList.add("active");
+    
+            const selectedCategory = tabBtn.dataset.tab;
+            if (apis[selectedCategory]) {
+                renderAPIs(selectedCategory);
+            }
+        });
+    
+        document.addEventListener("click", (e) => {
+            if (e.target.closest(".play-button")) {
+                const btn = e.target.closest(".play-button");
+                const endpoint = btn.getAttribute("data-endpoint");
+                const api = btn.getAttribute("data-api");
+                const desc = btn.getAttribute("data-desc");
+    
+                currentEndpoint = endpoint;
+    
+                paramForm.innerHTML = "";
+                paramForm.classList.remove("d-none");
+                submitBtn.classList.add("d-none");
+                urlsSection.classList.add("d-none");
+                loadingEl.classList.add("d-none");
+                responseEl.classList.add("d-none");
+    
+                document.querySelector(".modal-header h5").innerHTML = `<span class="method-tag">GET</span> ${api}`;
+                document.querySelector(".modal-header #desc").textContent = desc;
+    
+                if (endpoint.includes("?")) {
+                    const queryParams = endpoint.split("?")[1].split("&");
+                    queryParams.forEach(param => {
+                        const key = param.split("=")[0];
+                        paramForm.innerHTML += `
+                    <input type="text" id="${key}" name="${key}" placeholder="Input ${key}" required />
+                  `;
+                    });
+                    submitBtn.classList.remove("d-none");
+                } else {
+                    fetchAPI(endpoint);
+                }
+    
+                modal.classList.add("active");
+                document.getElementById("copyEndpointText").textContent = window.location.origin + endpoint;
+            }
+    
+            if (e.target.id === "btn-close" || e.target === modal) {
+                modal.classList.remove("active");
+                document.body.style.overflow = '';
+            }
+        });
+    
+        submitBtn.addEventListener("click", () => {
+            if (!paramForm.checkValidity()) {
+                paramForm.reportValidity();
+                return;
+            }
+    
+            paramForm.classList.add("d-none");
+            submitBtn.classList.add("d-none");
+            loadingEl.classList.remove("d-none");
+    
+            let endpoint = currentEndpoint.split("?")[0] + "?";
+            const inputs = paramForm.querySelectorAll("input");
+            inputs.forEach((input, index) => {
+                endpoint += `${input.name}=${encodeURIComponent(input.value)}`;
+                if (index < inputs.length - 1) endpoint += "&";
+            });
+    
+            fetchAPI(endpoint);
+        });
+    
+        document.getElementById('copyUrlBtn').addEventListener('click', () => {
+            const urlText = document.getElementById('copyEndpointText').textContent;
+            navigator.clipboard.writeText(urlText)
+        });
+        
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const body = document.body;
+    
+        sidebarToggle.addEventListener('click', () => {
+            body.classList.toggle('sidebar-open');
+        });
+    
+        sidebarOverlay.addEventListener('click', () => {
+            body.classList.remove('sidebar-open');
+        });
+    
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.querySelector('.container').style.display = 'block';
+            }, 500);
+        }, 1000);
+    
+        function fetchAPI(endpoint) {
+            const fullURL = window.location.origin + endpoint;
+            
+            responseEl.innerHTML = "";
+            responseEl.classList.add("d-none");
+            urlsSection.classList.remove("d-none");
+            loadingEl.classList.remove("d-none");
+    
+            document.getElementById("copyEndpointText").textContent = fullURL;
+    
+            fetch(fullURL)
+                .then(async (res) => {
+                    loadingEl.classList.add("d-none");
+                    const contentType = res.headers.get("content-type");
+                    const data = await res.blob();
+                    const blobUrl = URL.createObjectURL(data);
+    
+                    if (contentType.includes("application/json")) {
+                        try {
+                            const text = await data.text();
+                            const jsonData = JSON.parse(text);
+                            responseEl.innerHTML = `<pre>${JSON.stringify(jsonData, null, 2)}</pre>`;
+                        } catch (e) {
+                            responseEl.innerHTML = `<pre>${await data.text()}</pre>`;
+                        }
+                    } else if (contentType.startsWith("image/")) {
+                        responseEl.innerHTML = `<img src="${blobUrl}" style="max-width:100%; height:auto;" />`;
+                    } else if (contentType.startsWith("video/")) {
+                        responseEl.innerHTML = `<video controls autoplay style="width:100%;"><source src="${blobUrl}" type="${contentType}"></video>`;
+                    } else if (contentType.startsWith("audio/")) {
+                        responseEl.innerHTML = `<audio controls autoplay style="width:100%;"><source src="${blobUrl}" type="${contentType}"></audio>`;
+                    } else {
+                        const text = await data.text();
+                        responseEl.innerHTML = `<pre>${text.substring(0, 1000)}</pre>`;
+                    }
+                    responseEl.classList.remove("d-none");
+                })
+                .catch((err) => {
+                    loadingEl.classList.add("d-none");
+                    responseEl.classList.remove("d-none");
+                    responseEl.innerHTML = `<pre>Error: ${err.message}</pre>`;
+                });
+        }
+        
+        } catch (e) {
+        document.getElementById('loading-screen').innerHTML = `<div style="color:red; font-size:1.2rem; font-weight:500; text-align:center;">Error: ${e}</div>`;
+        }
+    });
+  </script>
+</body>
+</html>
