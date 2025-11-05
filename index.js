@@ -56,11 +56,11 @@ global.totalreq = 0;
 
 // Settings
 const settings = {
-  creatorName: "Kyu Pedo",
-  apiTitle: "Kyu API's",
-  channelLink: "https://t.me/testi_kyu", 
-  githubLink: "https://t.me/murbug_kyu", 
-  contactLink: "https://t.me/kyu_pedo"
+  creatorName: "Ralzz Pedo",
+  apiTitle: "Ralzz API's",
+  channelLink: "https://t.me/ralzzofc", 
+  githubLink: "https://github.com/", 
+  contactLink: "https://t.me/ralzbakekok"
 };
 
 
@@ -76,7 +76,7 @@ app.use((req, res, next) => {
       req.path !== '/set'
     ) {
       return originalJson.call(this, {
-        creator: settings.creatorName || "Created Using Kyu",
+        creator: settings.creatorName || "Created Using Ralzz",
         ...data
       });
     }
