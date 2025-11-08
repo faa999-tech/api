@@ -170,7 +170,7 @@ function convertCRC16(str) {
 }
 
 function generateTransactionId() {
-  return `SKYZOPEDIA-${crypto.randomBytes(2).toString('hex').toUpperCase()}`;
+  return `RALZZPEDIA-${crypto.randomBytes(2).toString('hex').toUpperCase()}`;
 }
 
 function generateExpirationTime() {
@@ -181,7 +181,7 @@ function generateExpirationTime() {
 
 async function elxyzFile(buffer) {
   const service = new ImageUploadService('pixhost.to');
-  const { directLink } = await service.uploadFromBinary(buffer, 'skyzo.png');
+  const { directLink } = await service.uploadFromBinary(buffer, 'ralzz.png');
   return directLink;
 }
 
